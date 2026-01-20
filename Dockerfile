@@ -1,19 +1,21 @@
-# Python 3.11 slim image’dan foydalanamiz
 FROM python:3.11-slim
 
-# Git o‘rnatamiz (GitHub’dan clone qilish uchun)
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+# Git va pip upgrade o‘rnatish
+RUN apt-get update && \
+    apt-get install -y git && \
+    python3 -m pip install --upgrade pip && \
+    rm -rf /var/lib/apt/lists/*
 
 # Ishchi papka
 WORKDIR /app
 
-# GitHub repository’ni clone qilamiz
+# Repository’ni clone qilamiz
 RUN git clone https://github.com/najmiddin97/ci_test.git .
 
-# Dependency’larni o‘rnatamiz
-RUN pip install --no-cache-dir -r requirements.txt
+# Global o‘rnatish – barcha paketlar container-wide bo‘ladi
+RUN pip install --no-cache-dir -r requirements.txt pytest
 
-# Testlarni ishga tushiramiz
+# Testlarni ishga tushirish
 CMD ["pytest", "-s"]
 
 
