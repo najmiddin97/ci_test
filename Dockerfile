@@ -1,3 +1,4 @@
+# Python 3.11 slim image’dan foydalanamiz
 FROM python:3.11-slim
 
 # Git o‘rnatamiz (GitHub’dan clone qilish uchun)
@@ -12,5 +13,7 @@ RUN git clone https://github.com/najmiddin97/ci_test.git .
 # Dependency’larni o‘rnatamiz
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Dasturni ishga tushiramiz
-CMD ["python", "main.py"]
+# Testlarni ishga tushiramiz
+CMD ["pytest", "-s"]
+
+
