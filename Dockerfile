@@ -16,6 +16,7 @@ RUN git clone https://github.com/najmiddin97/ci_test.git .
 RUN pip install --no-cache-dir -r requirements.txt pytest
 
 # Testlarni ishga tushirish
-CMD ["pytest", "-s"]
+CMD ["pytest", "-s", "tests"]
+
 
 
