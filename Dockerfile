@@ -1,22 +1,21 @@
-FROM python:3.11-slim
+FROM jenkins/jenkins:lts-jdk21
 
-# Git va pip upgrade o‘rnatish
+USER root
+
+# Python va pip o'rnatish
 RUN apt-get update && \
-    apt-get install -y git && \
-    python3 -m pip install --upgrade pip && \
+    apt-get install -y python3 python3-venv python3-pip && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Ishchi papka
-WORKDIR /app
+# Pre-installed venv va requirements
+# Hozirki build context = ci_test
+COPY requirements.txt /tmp/requirements.txt
 
-# Repository’ni clone qilamiz
-RUN git clone https://github.com/najmiddin97/ci_test.git .
+RUN python3 -m venv /opt/venv && \
+    /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install -r /tmp/requirements.txt
 
-# Global o‘rnatish – barcha paketlar container-wide bo‘ladi
-RUN pip install --no-cache-dir -r requirements.txt pytest
-
-# Testlarni ishga tushirish
-CMD ["pytest", "-s", "tests"]
-
-
+USER jenkins
+WORKDIR /var/jenkins_home
 
