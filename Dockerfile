@@ -8,7 +8,6 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Pre-installed venv va requirements
 # Hozirki build context = ci_test
 COPY requirements.txt /tmp/requirements.txt
 
